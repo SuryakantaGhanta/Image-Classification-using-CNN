@@ -72,12 +72,12 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 This step divides the processed dataset as follows:
 
 1. **Purpose of `train_test_split`**:  
-   The function is used to allocate a portion of the data for training the model and the rest for testing its accuracy and generalization ability.
+   The function allocates a portion of the data for training the model and the rest for testing its accuracy and generalization ability.
 
 2. **Key Parameters**:  
    - `X`: The feature dataset, containing normalized image data.  
    - `y`: The target labels associated with the images.  
-   - `test_size=0.2`: Specifies that 20% of the data will be reserved for testing, while the remaining 80% will be used for training.  
+   - `test_size=0.2`: 20% of the data will be reserved for testing, while the remaining 80% will be used for training.  
    - `random_state=42`: Ensures reproducibility of the data split by setting a fixed seed for randomization.
 
 3. **Outputs**:  
@@ -92,3 +92,56 @@ This step divides the processed dataset as follows:
 - The **testing set (`X_test`, `y_test`)** is used to assess the model's performance on unseen data, ensuring it can generalize effectively to new inputs.
 
 This structured division is a crucial step in validating the reliability and accuracy of the machine learning model across various metrics such as accuracy, precision, recall, and F1-score.
+### Model Compilation and Training
+
+#### Compiling the CNN Model
+After defining the architecture, the model is compiled using the following parameters:
+
+```python
+cnn.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
+```
+
+- **Optimizer (Adam)**: The Adam optimizer is used for adaptive learning rate optimization, improving convergence and stability.
+- **Loss Function (Sparse Categorical Crossentropy)**: This loss function is chosen because the target labels are integer-encoded, making it suitable for multi-class classification tasks.
+- **Evaluation Metric (Accuracy)**: Accuracy is used as the primary metric to measure the performance of the model.
+
+This compilation step ensures that the model is ready for training and can effectively adjust its parameters based on the given dataset.
+
+---
+
+#### Training the CNN Model
+The compiled model is trained using the following line of code:
+
+```python
+cnn.fit(X_train, y_train, epochs=10)
+```
+
+##### Key Parameters:
+- **X_train**: The training images that the model will learn from.
+- **y_train**: The corresponding class labels for the training images.
+- **epochs=10**: Specifies that the model will undergo 10 complete passes through the entire training dataset.
+
+##### Purpose of Model Training:
+During training, the convolutional layers extract features from images, and the dense layers learn patterns to correctly classify them. The model updates its weights iteratively to minimize the loss function, improving classification accuracy.
+
+---
+
+#### Evaluating the CNN Model
+After training, the model is evaluated on the test dataset using:
+
+```python
+cnn.evaluate(X_test, y_test)
+```
+
+##### Evaluation Metrics:
+- **X_test**: The unseen test images used to assess model generalization.
+- **y_test**: The actual class labels for the test images.
+- **Output**: The evaluation function returns the model's accuracy on the test set.
+
+##### Importance of Model Evaluation:
+Evaluation allows us to measure how well the model generalizes to new images, ensuring it is not overfitting to the training data. Metrics such as accuracy provide insights into the effectiveness of the trained model in classifying images into the correct animal categories.
+
+This completes the structured workflow for training and validating a convolutional neural network (CNN) for image classification using the provided dataset.
+
